@@ -1,0 +1,92 @@
+[
+    {
+        "id": 1,
+        "title": "First product",
+        "descrpiton": "Lorem ipsum first product",
+        "price": 100,
+        "thumbnail": "Lorem ipsum first product",
+        "code": "aaa111",
+        "stock": 25
+    },
+    {
+        "id": 2,
+        "title": "Second product",
+        "descrpiton": "Lorem ipsum second product",
+        "price": 50,
+        "thumbnail": "Lorem ipsum second product",
+        "code": "aaa112",
+        "stock": 3
+    },
+    {
+        "id": 3,
+        "title": "Third product",
+        "descrpiton": "Lorem ipsum third product",
+        "price": 250,
+        "thumbnail": "Lorem ipsum thrid product",
+        "code": "aaa113",
+        "stock": 99
+    },
+    {
+        "id": 4,
+        "title": "Fourth product",
+        "descrpiton": "Lorem ipsum fourth product",
+        "price": 25,
+        "thumbnail": "Lorem ipsum fourth product",
+        "code": "abc114",
+        "stock": 1
+    },
+    {
+        "id": 5,
+        "title": "Fifth product",
+        "descrpiton": "Lorem ipsum fifth product",
+        "price": 90,
+        "thumbnail": "Lorem ipsum fifth product",
+        "code": "abc115",
+        "stock": 4
+    },
+    {
+        "id": 6,
+        "title": "Sixth product",
+        "descrpiton": "Lorem ipsum sixth product",
+        "price": 999,
+        "thumbnail": "Lorem ipsum sixth product",
+        "code": "bbb111",
+        "stock": 3
+    },
+    {
+        "id": 7,
+        "title": "Seventh product",
+        "descrpiton": "Lorem ipsum seventh product",
+        "price": 50,
+        "thumbnail": "Lorem ipsum seventh product",
+        "code": "bbb112",
+        "stock": 8
+    },
+    {
+        "id": 8,
+        "title": "Eighth product",
+        "descrpiton": "Lorem ipsum eighth product",
+        "price": 11,
+        "thumbnail": "Lorem ipsum eighth product",
+        "code": "bbb113",
+        "stock": 2
+    },
+    {
+        "id": 9,
+        "title": "Nineth product",
+        "descrpiton": "Lorem ipsum nineth product",
+        "price": 33,
+        "thumbnail": "Lorem ipsum nineth product",
+        "code": "bbb114",
+        "stock": 96
+    },
+    {
+        "id": 10,
+        "title": "Tenth product",
+        "descrpiton": "Lorem ipsum tenth product",
+        "price": 10,
+        "thumbnail": "Lorem ipsum tenth product",
+        "code": "bbb115",
+        "stock": 10
+    }
+]
