@@ -8,6 +8,8 @@ const socketProduct = async (io) => {
     const products = pm.getProducts()
 
     io.on('connection', socket => {
+        console.log("New client connected");
+
         socket.emit('products', products)
 
         socket.on('addProduct', async data => {
