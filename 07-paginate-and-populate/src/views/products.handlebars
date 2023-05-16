@@ -1,3 +1,7 @@
+{{#if error}}
+    <h1 class="font-semibold text-4xl text-gray-700 text-center uppercase my-5">{{message}}</h1>
+{{/if}}
+
 <div>
     <h1 class="font-semibold text-4xl text-gray-700 text-center uppercase my-5">Products</h1>
     <h2 class="font-semibold text-xl text-gray-700 text-center my-5">The products will be added to the cart: 645d24062352998e226c6f19</h2>
@@ -27,25 +31,30 @@
                 </li>
                 <hr class="my-5 border-gray-600">
             {{/each}}
+            <div class="flex justify-between items-center gap-20 my-5">
+                <div>
+                    {{#if hasPrevPage}}
+                        <a class="bg-gray-700 hover:bg-gray-500 text-white font-medium uppercase py-1 px-2 rounded cursor-pointer" href={{prevLink}}>Back</a>
+                    {{/if}}
+                </div>
+                <div>
+                    {{#if page}}
+                        <p>{{page}}</p>
+                    {{/if}}
+                </div>
+                <div>
+                    {{#if hasNextPage}}
+                        <a class="bg-gray-700 hover:bg-gray-500 text-white font-medium uppercase py-1 px-2 rounded cursor-pointer" href={{nextLink}}>Next</a>
+                    {{/if}}
+                </div>
+            </div>
+        {{else}}
+        <div>
+            <hr>
+            <h3 class="mt-2 text-center text-4xl font-bold">There are no products with the filters applied or there is an error</h3>
+        </div>
         {{/if}}
     </ul>
-    <div class="flex justify-between items-center gap-20 my-5">
-        <div>
-            {{#if hasPrevPage}}
-                <a class="bg-gray-700 hover:bg-gray-500 text-white font-medium uppercase py-1 px-2 rounded cursor-pointer" href={{prevLink}}>Back</a>
-            {{/if}}
-        </div>
-        <div>
-            {{#if page}}
-                <p>{{page}}</p>
-            {{/if}}
-        </div>
-        <div>
-            {{#if hasNextPage}}
-                <a class="bg-gray-700 hover:bg-gray-500 text-white font-medium uppercase py-1 px-2 rounded cursor-pointer" href={{nextLink}}>Next</a>
-            {{/if}}
-        </div>
-    </div>
 </div>
 <script src=" https://cdn.jsdelivr.net/npm/sweetalert2@11.7.1/dist/sweetalert2.all.min.js "></script>
 <script src="/static/js/products.js"></script>
