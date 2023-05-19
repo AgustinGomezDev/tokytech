@@ -43,35 +43,35 @@ class CartManagerMongo{
     }
 
     async deleteProductFromCart(cid, pid){
-        const cart = await this.getCartById(cid)
-        const index = cart.products.findIndex(product => product._id === pid)
+        const cart = await cartModel.findOne({_id: cid})
+        const index = cart.products.findIndex(product => product.product == pid)
 
         if(index === -1){
             return null
         }else{
             const filter = { _id: cid };
-            const update = { $pull: { products: { _id: pid } } }
-            await cartModel.updateOne(filter, update)
+            const update = { $pull: { products: { product: pid } } }
+            await cartModel.findOneAndUpdate(filter, update)
         }
     }
 
     async updateCart(cid, products){
         try{
             const update = { $set: { products: products  } }
-            return await cartModel.updateOne({_id: cid}, update)
+            return await cartModel.findOneAndUpdate({_id: cid}, update)
         }catch(error){
-            return new Error(err)
+            return new Error(error)
         }
     }
 
     async updateQuantity(cid, pid, quantity){
-        const cart = await this.getCartById(cid)
-        const index = cart.products.findIndex(product => product._id === pid)
+        const cart = await cartModel.findOne({_id: cid})
+        const index = cart.products.findIndex(product => product.product == pid)
 
         if (index === -1 || quantity < 1) {
             return null
         }else {
-            const filter = { _id: cid, 'products._id': pid };
+            const filter = { _id: cid, 'products.product': pid };
             const update = { $set: { 'products.$.quantity': quantity } };
             await cartModel.updateOne(filter, update);
         }

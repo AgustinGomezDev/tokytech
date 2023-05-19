@@ -31,7 +31,7 @@ router.post('/:cid/products/:pid', async (req, res) => {
 
 router.put('/:cid', async (req, res) => {
     try{
-        const products = req.body
+        const { products } = req.body
         await cartManager.updateCart(req.params.cid, products)
         res.status(200).send({status: 'succes', payload: await cartManager.getCarts()})
     }catch(error){
