@@ -14,6 +14,13 @@ router.get('/chat', (req,res) => {
 
 router.get('/products', async (req, res) => {
     try{
+        if (req.query.page) {
+            queryPage = parseInt(req.query.page);
+            if (isNaN(queryPage) || queryPage < 1) {
+                throw new Error('Invalid page number');
+            }
+        }
+
         let query = {}
         if(req.query.query === undefined){ // query undefined
             query = {}
@@ -57,7 +64,7 @@ router.get('/products', async (req, res) => {
 
         res.render('products', {status: 'succes', payload: docs, totalPages, prevPage, nextPage, page, hasPrevPage, hasNextPage, prevLink, nextLink })
     }catch(error){
-        res.status(400).send({status: 'error', message: error.message})
+        res.render('products', {status: 'error', message: error.message})
     }
 })
 
