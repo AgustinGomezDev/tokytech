@@ -22,7 +22,7 @@ const { initPassport, initPassportGithub } = require('./config/passport.config.j
 const cookieParser = require('cookie-parser')
 
 const app = express()
-objectConfig.connectDB()
+objectConfig.mongoInstance()
 
 const PORT = process.env.PORT
 const httpServer = app.listen(PORT, () => {
