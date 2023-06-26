@@ -6,7 +6,7 @@ class UserController {
     register = async(req, res) => {
         const { first_name, last_name, email, password, date_of_birth } = req.body
         try{
-            const user = await userService.getUserByEmail(email)
+            const user = await userService.getByEmail(email)
             if(user) return 'A user already exists with that email' 
 
             let role = ''
@@ -18,22 +18,20 @@ class UserController {
                 date_of_birth,
                 email,
                 password: createHash(password),
-                cart: await cartService.createCart(),
+                cart: await cartService.create(),
                 role
             }
-            let result = await userService.addUser(newUser)
+            let result = await userService.create(newUser)
             return { result }
-            // res.send({status: "success", payload: result});
         }catch(error){
-            return error
-            // res.send({status: 'error', message: error.message});
+            throw error
         }
     }
 
     login = async(req, res) => {
         const { email, password } = req.body
     
-        const userDB = await userService.getUserByEmail(email)
+        const userDB = await userService.getByEmail(email)
             try{
                 if(!userDB) return res.send({status: 'error', message: 'There is not a user with the email: ' + email})
                 
@@ -44,23 +42,19 @@ class UserController {
                 res.cookie(process.env.JWT_COOKIE_KEY, access_token, {maxAge: 3600000, httpOnly: true})
     
                 return { access_token }
-                // res.send({status: "success", payload: access_token});
             }catch(error){
-                return error
-                // res.send({status: 'error', message: error.message});
+                throw error
             }
     }
 
     logout = (req, res)=>{
         res.clearCookie(process.env.JWT_COOKIE_KEY)
         return 'Succesfully logged out'
-        // res.send('Successfully logged out.')
     }
 
     current = (req, res) => {
         const currentUser = req.user;
         return { currentUser }
-        // res.send({ status: 'success', payload: currentUser });
     }
 }
 

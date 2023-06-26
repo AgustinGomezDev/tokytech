@@ -45,7 +45,7 @@ class UserManagerMongo{
         }
     }
 
-    async updateUser(uid, user){
+    async updateUser(uid, data){
         try{
             return await userModel.findOneAndUpdate(uid, data)
         }catch (error) {

@@ -1,6 +1,3 @@
-// ---- Dotenv
-const dotenv = require('dotenv').config()
-
 // ---- Server
 const express = require('express')
 const objectConfig = require('./config/objectConfig')
@@ -22,7 +19,7 @@ const { initPassport, initPassportGithub } = require('./config/passport.config.j
 const cookieParser = require('cookie-parser')
 
 const app = express()
-objectConfig.mongoInstance()
+
 
 const PORT = process.env.PORT
 const httpServer = app.listen(PORT, () => {

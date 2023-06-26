@@ -5,7 +5,8 @@ class CartRouter extends RouterClass {
     init(){
         this.get('/:cid', ['PUBLIC'], async (req, res) => {
             try{
-                res.sendSuccess(await cartController.getById(req, res))
+                const payload = await cartController.getById(req, res)
+                res.sendSuccess(payload)
             }catch(error){
                 res.sendServerError(error.message)
             }

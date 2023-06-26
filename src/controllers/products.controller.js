@@ -30,61 +30,51 @@ class ProductController {
             let prevLink = ''
             let nextLink = ''
     
-            const products = await productService.getProducts(query, options)
+            const products = await productService.get(query, options)
             const { docs, totalPages, prevPage, nextPage, page, hasPrevPage, hasNextPage } = products
             hasPrevPage === false ? prevLink = null : prevLink = `/api/products?page=${parseInt(prevPage)}`
             hasNextPage === false ? nextLink = null : nextLink = `/api/products?page=${parseInt(nextPage)}`
             return { products: docs, totalPages, prevPage, nextPage, page, hasPrevPage, hasNextPage, prevLink, nextLink }
-            // res.send({status: 'succes', payload: docs, totalPages, prevPage, nextPage, page, hasPrevPage, hasNextPage, prevLink, nextLink })
         }catch(error){
-            return error
-            // res.send({status: 'error', message: error})
+            throw error
         }
     }
 
     getById = async (req, res) => {
         try{
-            const product = await productService.getProductById(req.params.pid)
+            const product = await productService.getById(req.params.pid)
             return { product }
-            // res.status(200).send({status: 'succes', payload: product})
         }catch(error){
-            return error
-            // res.status(400).send({status: 'error', message: error.message})
+            throw error
         }
     }
 
     create = async (req, res) => {
         try{
             const product = req.body
-            const addedProduct = await productService.addProduct(product)
+            const addedProduct = await productService.create(product)
             return { addedProduct }
-            // res.status(200).send({status: 'succes', payload: await productService.getProducts()})
         }catch (error){
-            return error
-            // res.status(400).send({status: 'error', message: error.message})
+            throw error
         }
     }
 
     update = async (req, res) => {
         try{
             const product = req.body
-            const updatedProduct = await productService.updateProduct(req.params.pid, product)
+            const updatedProduct = await productService.update(req.params.pid, product)
             return { updatedProduct }
-            // res.status(200).send({status: 'succes', payload: await productService.getProducts()})
         }catch (error){
-            return error
-            // res.status(400).send({status: 'error', message: error.message})
+            throw error
         }
     }
 
     delete = async (req, res) => {
         try{
-            const deletedProduct = await productService.deleteProduct(req.params.pid)
+            const deletedProduct = await productService.delete(req.params.pid)
             return { deletedProduct }
-            // res.status(200).send({status: 'succes', payload: await productService.getProducts()})
         }catch(error){
-            return error
-            // res.status(400).send({status: 'error', message: error.message})
+            throw error
         }
     }
 }
