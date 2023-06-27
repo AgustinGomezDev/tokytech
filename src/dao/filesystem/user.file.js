@@ -10,9 +10,9 @@ class UserManagerFile {
 
     async initializeFile() {
         try {
-            await fs.access(this.filename);
+            await fs.access(this.fileName);
         } catch (error) {
-            await fs.writeFile(this.filename, '[]');
+            await fs.writeFile(this.fileName, '[]');
         }
     }
 
