@@ -42,7 +42,7 @@ app.use('/static', express.static(__dirname+'/public'))
 app.use(cookieParser())
 
 initPassport()
-// initPassportGithub()
+initPassportGithub()
 app.use(passport.initialize())
 
 app.use(mainRouter)
