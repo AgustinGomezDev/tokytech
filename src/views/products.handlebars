@@ -6,7 +6,6 @@
     </div>
     {{/if}}
     <h1 class="font-semibold text-4xl text-gray-700 text-center uppercase my-5">Products</h1>
-    <h2 class="font-semibold text-xl text-gray-700 text-center my-5">The products will be added to the cart: 645d24062352998e226c6f19</h2>
     <ul class="mt-4">
         {{#if payload}}
             {{#each payload}}
@@ -21,7 +20,7 @@
                         <p class="">STOCK: {{stock}}</p>
                         <p class="">CATEGORY: {{category}}</p>
                         <p class="">Nº OF THUMBNAILS: {{thumbnails.length}}</p>
-                        <form action="/api/carts/645d24062352998e226c6f19/products/{{this._id}}" method="post">
+                        <form action="/api/carts/{{../session.cart}}/products/{{this._id}}" method="post">
                             <button type="submit" id={{_id}} class="mt-3 bg-green-700 hover:bg-green-500 text-white font-medium uppercase py-1 px-2 rounded cursor-pointer addToCart">Add to cart</button>
                         </form>
                     </div>
