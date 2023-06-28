@@ -1,6 +1,5 @@
-const express = require('express')
 const productController = require('../controllers/products.controller')
-const cartManager = require('../dao/mongo/cart.mongo') 
+const cartController = require('../controllers/carts.controller')
 const { authToken } = require('../utils/jwt')
 const RouterClass = require('./RouterClass')
 
@@ -26,7 +25,7 @@ class ViewRouter extends RouterClass {
         })
 
         this.get('/cart/:cid', ['PUBLIC'], authToken, async (req, res) => {
-            res.render('cart', {status: 'succes', payload: await cartManager.getCartById(req.params.cid)})
+            res.render('cart', {status: 'succes', payload: await cartController.getById(req, res)})
         })
 
         this.get('/login', ['PUBLIC'], async (req, res) => {

@@ -7,7 +7,7 @@ class CartController {
             if(!cart){
                 throw new Error('Could not find a cart with the ID: ' + req.params.cid)
             }else{
-                return { cart }
+                return cart 
             }
         }catch(error){  
             throw error
