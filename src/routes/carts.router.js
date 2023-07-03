@@ -60,6 +60,14 @@ class CartRouter extends RouterClass {
                 res.sendServerError(error.message)
             }
         })
+
+        this.get('/:cid/purchase', ['PUBLIC'], async (req, res) => {
+            try{
+                res.sendSuccess(await cartController.generatePurchase(req, res))
+            }catch(error){
+                res.sendServerError(error.message)
+            }
+        })
     }
 }
 

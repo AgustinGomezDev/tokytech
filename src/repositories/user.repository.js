@@ -31,6 +31,11 @@ class UserRepository{
         return result
     }
 
+    async getByCartId(cid){
+        const result = await this.dao.getUserByCartId(cid)
+        return result
+    }
+
     async update(uid, data){
         const result = await this.dao.updateUser(uid, data)
         return result

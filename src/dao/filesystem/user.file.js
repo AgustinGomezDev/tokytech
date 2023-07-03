@@ -55,6 +55,16 @@ class UserManagerFile {
         }
     }
 
+    async getUserByCartId(cartId){
+        try{
+            const data = await fs.readFile(this.fileName, 'utf8');
+            const users = JSON.parse(data);
+            return users.find(user => user.cart === cartId);
+        }catch(error){
+            throw new Error(error)
+        }
+    }
+
     async addUser(user) {
         try {
             const data = await fs.readFile(this.fileName, 'utf8');
