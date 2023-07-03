@@ -1,4 +1,5 @@
 const { cartService, userService, productService, ticketService } = require('../service')
+const transport = require('../utils/nodemailer')
 
 class CartController {
     getById = async (req, res) => {
@@ -121,6 +122,18 @@ class CartController {
 
                 // Remove purchased products from cart
                 await cartService.update(cid, outOfStock)
+
+                let result = await transport.sendMail({
+                    from: 'Ticket <agustingomezdev@gmail.com>',
+                    to: userEmail,
+                    subject: 'Ticket',
+                    html: `
+                    <div>
+                        <h1>Ticket: ${ticket.code}</h1>
+                        <h2>Price: $${ticket.amount}</h2>
+                    </div>
+                    `
+                })
             }
             
             if(outOfStock.length > 0){
