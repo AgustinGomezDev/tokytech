@@ -120,7 +120,7 @@ class CartController {
                 ticketToSend = await ticketService.create(ticket)
 
                 // Remove purchased products from cart
-                // await cartService.update(cid, outOfStock)
+                await cartService.update(cid, outOfStock)
             }
             
             if(outOfStock.length > 0){
