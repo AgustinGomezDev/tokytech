@@ -2,11 +2,24 @@ const UserDto = require('../dto/user.dto')
 const { userService, cartService } = require('../service')
 const { createHash, isValidPassword } = require('../utils/bcrypt')
 const { generateToken } = require('../utils/jwt')
+const CustomError = require('../utils/CustomErrors/CustomError')
+const EErrors = require('../utils/CustomErrors/EErrors')
+const { generateUserErrorInfo } = require('../utils/CustomErrors/info')
 
 class UserController {
     register = async(req, res) => {
-        const { first_name, last_name, email, password, date_of_birth } = req.body
         try{
+            const { first_name, last_name, email, password, date_of_birth } = req.body
+
+            if(!first_name || !last_name || !email){
+                CustomError.createError({
+                    name: 'User creation error',
+                    cause: generateUserErrorInfo({first_name, last_name, email}),
+                    message: 'Error trying to create a user',
+                    code: EErrors.INVALID_TYPE_ERROR
+                })
+            }
+
             const user = await userService.getByEmail(email)
             if(user) return 'A user already exists with that email' 
 

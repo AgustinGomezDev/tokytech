@@ -20,7 +20,7 @@ class SessionRouter extends RouterClass {
             try{
                 res.sendSuccess(await userController.register(req, res))
             }catch(error){
-                res.sendServerError(error.message)
+                res.sendServerError(error)
             }
         })
 

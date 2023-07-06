@@ -1,4 +1,7 @@
 const { productService } = require('../service')
+const CustomError = require('../utils/CustomErrors/CustomError')
+const EErrors = require('../utils/CustomErrors/EErrors')
+const { generateProductErrorInfo } = require('../utils/CustomErrors/info')
 
 class ProductController {
     get = async (req, res) => {
@@ -69,6 +72,16 @@ class ProductController {
     create = async (req, res) => {
         try{
             const product = req.body
+
+            if(!product.title || !product.price || !product.code || !product.stock){
+                CustomError.createError({
+                    name: 'Product creation error',
+                    cause: generateProductErrorInfo({title: product.title, code: product.code, price: product.price, stock: product.stock}),
+                    message: 'Error trying to create a product',
+                    code: EErrors.INVALID_TYPE_ERROR
+                })
+            }
+
             const addedProduct = await productService.create(product)
             return { addedProduct }
         }catch (error){

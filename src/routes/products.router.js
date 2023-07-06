@@ -23,7 +23,7 @@ class ProductRouter extends RouterClass {
             try{
                 res.sendSuccess(await productController.create(req, res))
             }catch(error){
-                res.sendServerError(error.message)
+                res.sendServerError(error)
             }
         })
 
