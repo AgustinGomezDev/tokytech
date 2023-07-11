@@ -69,7 +69,7 @@ class ProductController {
         }
     }
 
-    create = async (req, res) => {
+    create = async (req, res, next) => {
         try{
             const product = req.body
 
@@ -85,7 +85,7 @@ class ProductController {
             const addedProduct = await productService.create(product)
             return { addedProduct }
         }catch (error){
-            throw error
+            next(error)
         }
     }
 

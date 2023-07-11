@@ -16,11 +16,11 @@ class SessionRouter extends RouterClass {
             }
         })
 
-        this.post('/register', ['PUBLIC'], async (req, res) => {
+        this.post('/register', ['PUBLIC'], async (req, res, next) => {
             try{
-                res.sendSuccess(await userController.register(req, res))
+                res.sendSuccess(await userController.register(req, res, next))
             }catch(error){
-                res.sendServerError(error)
+                // errorHandler
             }
         })
 

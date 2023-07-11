@@ -7,7 +7,7 @@ const EErrors = require('../utils/CustomErrors/EErrors')
 const { generateUserErrorInfo } = require('../utils/CustomErrors/info')
 
 class UserController {
-    register = async(req, res) => {
+    register = async(req, res, next) => {
         try{
             const { first_name, last_name, email, password, date_of_birth } = req.body
 
@@ -38,11 +38,11 @@ class UserController {
             let result = await userService.create(newUser)
             return { result }
         }catch(error){
-            throw error
+            next(error)
         }
     }
 
-    login = async(req, res) => {
+    login = async(req, res, next) => {
         const { email, password } = req.body
     
         const userDB = await userService.getByEmail(email)
@@ -61,12 +61,12 @@ class UserController {
             }
     }
 
-    logout = (req, res)=>{
+    logout = (req, res, next)=>{
         res.clearCookie(process.env.JWT_COOKIE_KEY)
         return 'Succesfully logged out'
     }
 
-    current = (req, res) => {
+    current = (req, res, next) => {
         const user = req.user;
         const { first_name, last_name, email, role  } = new UserDto(user)
         return {first_name, last_name, email, role}

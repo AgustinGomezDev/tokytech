@@ -19,11 +19,11 @@ class ProductRouter extends RouterClass {
             }
         })
 
-        this.post('/', ['ADMIN'], async (req, res) => {
+        this.post('/', ['ADMIN'], async (req, res, next) => {
             try{
-                res.sendSuccess(await productController.create(req, res))
+                res.sendSuccess(await productController.create(req, res, next))
             }catch(error){
-                res.sendServerError(error)
+                // errorHandler
             }
         })
 

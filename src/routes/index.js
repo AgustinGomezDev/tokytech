@@ -4,6 +4,7 @@ const CartRouter = require('./carts.router')
 const ViewRouter = require('./views.router')
 const SessionsRouter = require('./sessions.router')
 const { mockingProducts } = require('../utils/mockingProducts')
+const errorHandler = require('../middlewares/errors')
 
 const productRouter = new ProductRouter()
 const cartRouter = new CartRouter()
@@ -22,5 +23,6 @@ mainRouter.use('/mockingproducts', (req, res, next) => {
 mainRouter.use('*', (req, res, next) => {
     res.status(404).send({status: "error", error: 'Requested path not found',});
 })
+mainRouter.use(errorHandler)
 
 module.exports = mainRouter
