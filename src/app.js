@@ -1,6 +1,7 @@
 // ---- Server
 const express = require('express')
 const objectConfig = require('./config/objectConfig')
+const { addLogger, logger } = require('./config/logger')
 
 // ---- Socketio
 const { Server } = require('socket.io')
@@ -19,11 +20,11 @@ const { initPassport, initPassportGithub } = require('./config/passport.config.j
 const cookieParser = require('cookie-parser')
 
 const app = express()
-
+app.use(addLogger)
 
 const PORT = process.env.PORT
 const httpServer = app.listen(PORT, () => {
-    console.log('Server running on port: ' + PORT)
+    logger.info('Server running on port: ' + PORT)
 })
 
 const hbs = handlebars.create({

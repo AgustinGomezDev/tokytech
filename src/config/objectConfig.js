@@ -1,6 +1,7 @@
 const { MongoSingleton } = require('./mongo.singleton')
 const program = require('../utils/commander')
 const dotenv = require('dotenv')
+const { logger } = require('./logger')
 
 const { mode } = program.opts()
 
@@ -13,8 +14,8 @@ const mongoInstance = async () => {
     try{
         await MongoSingleton.getInstance()
     }catch(err){
-        console.log(err);
+        logger.error(err);
     }
 }
 
-module.exports = { mongoInstance }
+module.exports = { mongoInstance, environment: mode }

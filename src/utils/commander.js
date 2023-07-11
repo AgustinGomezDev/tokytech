@@ -1,4 +1,5 @@
 const { Command } = require('commander')
+const { logger } = require('../config/logger')
 
 const program = new Command()
 
@@ -7,6 +8,6 @@ program
     .option('--mode <mode>', 'Working mode', 'development')
 program.parse();
 
-console.log("Runtime options: ", program.opts());
+logger.info("Runtime options: ", program.opts());
 
 module.exports = program

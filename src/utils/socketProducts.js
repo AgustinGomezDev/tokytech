@@ -1,11 +1,13 @@
 const ProductManager = require('../dao/mongo/product.mongo')
 const productManager = new ProductManager
 
+const { logger } = require('../config/logger')
+
 const socketProduct = async (io) => {
     const products = await productManager.getProducts()
 
     io.on('connection', socket => {
-        console.log("New client connected");
+        logger.info("New client connected in /realtimeproducts");
 
         socket.emit('products', products)
 

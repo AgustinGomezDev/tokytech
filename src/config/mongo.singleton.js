@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const { logger } = require('./logger')
 
 class MongoSingleton {
     static #instance
@@ -9,7 +10,7 @@ class MongoSingleton {
 
     static getInstance(){
         if(this.#instance){
-            console.log('There is already a connection with MongoDB');
+            logger.info('There is already a connection with MongoDB');
         }else{
             this.#instance = new MongoSingleton()
         }
@@ -19,9 +20,9 @@ class MongoSingleton {
     #connectMongoDB = async () => {
         try{
             await mongoose.connect(process.env.MONGO)
-            console.log('Successfully connected to MongoDB')
+            logger.info('Successfully connected to MongoDB')
         }catch(err){
-            console.log('Could not connect to MongoDB: ' + err)
+            logger.error('Could not connect to MongoDB: ' + err)
             process.exit()
         }
     }
