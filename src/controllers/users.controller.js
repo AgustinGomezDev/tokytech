@@ -1,10 +1,11 @@
 const UserDto = require('../dto/user.dto')
 const { userService, cartService } = require('../service')
 const { createHash, isValidPassword } = require('../utils/bcrypt')
-const { generateToken } = require('../utils/jwt')
+const { generateToken, generateTokenResetPassword, decodeJWT } = require('../utils/jwt')
 const CustomError = require('../utils/CustomErrors/CustomError')
 const EErrors = require('../utils/CustomErrors/EErrors')
 const { generateUserErrorInfo } = require('../utils/CustomErrors/info')
+const transport = require('../utils/nodemailer')
 
 class UserController {
     register = async(req, res, next) => {
@@ -47,7 +48,14 @@ class UserController {
     
         const userDB = await userService.getByEmail(email)
             try{
-                if(!userDB) return res.send({status: 'error', message: 'There is not a user with the email: ' + email})
+                if(!userDB){
+                    CustomError.createError({
+                        name: 'Could not find user',
+                        cause: null,
+                        message: 'Error trying to find a user with the email: ' + email,
+                        code: EErrors.INVALID_TYPE_ERROR
+                    })
+                }
                 
                 if(!isValidPassword(userDB, password)) return res.send({status: 'error', message: 'Your user password does not match the entered password'})
 
@@ -70,6 +78,57 @@ class UserController {
         const user = req.user;
         const { first_name, last_name, email, role  } = new UserDto(user)
         return {first_name, last_name, email, role}
+    }
+
+    recoverPassword = async(req, res, next) => {
+        const { email } = req.body
+    
+        const userDB = await userService.getByEmail(email)
+            try{
+                if(!userDB){
+                    CustomError.createError({
+                        name: 'Could not find user',
+                        cause: null,
+                        message: 'Error trying to find a user with the email: ' + email,
+                        code: EErrors.INVALID_TYPE_ERROR
+                    })
+                }
+    
+                const token = generateTokenResetPassword(userDB)
+
+                let result = await transport.sendMail({
+                    from: 'Recover Password <agustingomezdev@gmail.com>',
+                    to: email,
+                    subject: 'Recover password',
+                    html: `
+                    <div>
+                        <h1>Recover your password</h1>
+                        <a href="http://localhost:8080/updatePassword/${token}">Click me to recover your password</a>
+                        <p>This link to reset your password is only valid for 1 hour</>
+                    </div>
+                    `
+                })
+            }catch(error){
+                throw error
+            }
+    }
+
+    updatePassword = async(req, res, next) => {
+            const { token, password } = req.body
+
+            try{
+                const user = decodeJWT(token)
+
+                if(isValidPassword(user.user, password) == true)
+                    res.send({status: 'error', message: "You can't enter the same password you had before"})
+
+                const hashedPassword = createHash(password)
+                let result = await userService.update({_id: user.user._id}, {password: hashedPassword})
+                console.log(await userService.update({_id: user.user._id}, {password: hashedPassword}))
+                return result
+            }catch(error){
+                throw error
+            }
     }
 }
 
