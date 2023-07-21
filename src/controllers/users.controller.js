@@ -34,7 +34,8 @@ class UserController {
                 email,
                 password: createHash(password),
                 cart: await cartService.create(),
-                role
+                role,
+                owner
             }
             let result = await userService.create(newUser)
             return { result }
@@ -124,11 +125,34 @@ class UserController {
 
                 const hashedPassword = createHash(password)
                 let result = await userService.update({_id: user.user._id}, {password: hashedPassword})
-                console.log(await userService.update({_id: user.user._id}, {password: hashedPassword}))
                 return result
             }catch(error){
                 throw error
             }
+    }
+
+    premiumUser = async(req, res, next) => {
+        const { uid } = req.params
+
+        const userDB = await userService.getById(uid)
+        try{
+            if(!userDB)
+                CustomError.createError({
+                    name: 'Could not find user',
+                    cause: null,
+                    message: 'Error trying to find a user with the id: ' + uid,
+                    code: EErrors.INVALID_TYPE_ERROR
+            })
+
+            let newRole = ''
+            userDB.role === 'user' ? newRole = 'premium' : newRole = 'user'
+
+            const newRoleUser = await userService.update({_id: uid}, {role: newRole})
+            const result = await userService.getById(uid)
+            return result
+        }catch(error){
+            throw error
+        }
     }
 }
 
