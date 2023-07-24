@@ -34,8 +34,7 @@ class UserController {
                 email,
                 password: createHash(password),
                 cart: await cartService.create(),
-                role,
-                owner
+                role
             }
             let result = await userService.create(newUser)
             return { result }
