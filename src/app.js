@@ -2,6 +2,7 @@
 const express = require('express')
 const objectConfig = require('./config/objectConfig')
 const { addLogger, logger } = require('./config/logger')
+const cors = require('cors')
 
 // ---- Socketio
 const { Server } = require('socket.io')
@@ -41,6 +42,7 @@ app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 app.use('/static', express.static(__dirname+'/public'))
 app.use(cookieParser())
+app.use(cors())
 
 initPassport()
 initPassportGithub()
