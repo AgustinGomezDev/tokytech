@@ -10,9 +10,18 @@ const productSchema = new mongoose.Schema({
     },
     description: String,
     thumbnails: Array,
-    category: String,
-    price: Number,
-    stock: Number,
+    category: {
+        type: String,
+        required: true
+    },
+    price: {
+        type: Number,
+        set: value => parseFloat(value).toFixed(2)
+    },
+    stock: {
+        type: Number,
+        required: true
+    },
     status: {
         type: Boolean,
         default: true
@@ -26,6 +35,10 @@ const productSchema = new mongoose.Schema({
         type: String,
         ref: 'users',
         default: 'admin'
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now 
     }
 })
 

@@ -61,9 +61,9 @@ class UserController {
 
                 const access_token = generateToken(userDB)
 
-                res.cookie(process.env.JWT_COOKIE_KEY, access_token, {maxAge: 3600000, httpOnly: true})
+                res.cookie(process.env.JWT_COOKIE_KEY, access_token, {maxAge: 3600000})
     
-                return { access_token }
+                return { userDB, access_token }
             }catch(error){
                 throw error
             }
@@ -76,8 +76,9 @@ class UserController {
 
     current = (req, res, next) => {
         const user = req.user;
-        const { first_name, last_name, email, role  } = new UserDto(user)
-        return {first_name, last_name, email, role}
+        
+        const { first_name, last_name, email, role, date_of_birth, cart, _id } = new UserDto(user)
+        return {first_name, last_name, email, role, date_of_birth, cart, _id }
     }
 
     recoverPassword = async(req, res, next) => {
@@ -103,7 +104,7 @@ class UserController {
                     html: `
                     <div>
                         <h1>Recover your password</h1>
-                        <a href="http://localhost:8080/updatePassword/${token}">Click me to recover your password</a>
+                        <a href="http://localhost:5173/updatepassword?token=${token}">Click me to recover your password</a>
                         <p>This link to reset your password is only valid for 1 hour</>
                     </div>
                     `
