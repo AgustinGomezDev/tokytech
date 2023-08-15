@@ -43,7 +43,7 @@ spec:
           - name: GITHUB_CLIENT_SECRET
             value: "7ac8095c895540f5450a2094ea998cac545dbf99"
           - name: GITHUB_CALLBACK_URL
-            value: "http://localhost:8080/api/sessions/githubcallback"
+            value: "http://localhost:8080/api/users/githubcallback"
           - name: ADMIN_EMAIL
             value: "adminCoderhouse@gmail.com"
           - name: ADMIN_PASSWORD

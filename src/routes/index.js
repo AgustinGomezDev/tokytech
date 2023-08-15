@@ -2,20 +2,20 @@ const express = require('express')
 const ProductRouter = require('./products.router')
 const CartRouter = require('./carts.router')
 const ViewRouter = require('./views.router')
-const SessionsRouter = require('./sessions.router')
+const UsersRouter = require('./users.router')
 const { mockingProducts } = require('../utils/mockingProducts')
 const errorHandler = require('../middlewares/errors')
 
 const productRouter = new ProductRouter()
 const cartRouter = new CartRouter()
 const viewRouter = new ViewRouter()
-const sessionsRouter = new SessionsRouter()
+const usersRouter = new UsersRouter()
 
 const mainRouter = express.Router()
 
 mainRouter.use('/api/products', productRouter.getRouter())
 mainRouter.use('/api/carts', cartRouter.getRouter())
-mainRouter.use('/api/sessions', sessionsRouter.getRouter())
+mainRouter.use('/api/users', usersRouter.getRouter())
 mainRouter.use('/', viewRouter.getRouter())
 mainRouter.use('/mockingproducts', (req, res, next) => {
     res.send(mockingProducts())
