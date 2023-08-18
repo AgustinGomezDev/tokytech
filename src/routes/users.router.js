@@ -57,7 +57,7 @@ class SessionRouter extends RouterClass {
             }
         })
 
-        this.get('/premium/:uid', ['PUBLIC'], async (req, res) => {
+        this.get('/premium/:uid', ['USER', 'PREMIUM'], async (req, res) => {
             try{
                 res.sendSuccess(await userController.premiumUser(req, res)) 
             }catch(error){
