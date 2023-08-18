@@ -86,8 +86,8 @@ class UserController {
     current = (req, res, next) => {
         const user = req.user;
         
-        const { first_name, last_name, email, role, date_of_birth, cart, _id } = new UserDto(user)
-        return {first_name, last_name, email, role, date_of_birth, cart, _id }
+        const { first_name, last_name, email, role, date_of_birth, cart, _id, last_connection, documents } = new UserDto(user)
+        return {first_name, last_name, email, role, date_of_birth, cart, _id, last_connection, documents }
     }
 
     recoverPassword = async(req, res, next) => {
