@@ -44,8 +44,8 @@ class ViewRouter extends RouterClass {
             res.render('register', {})
         })
 
-        this.get('/multer', ['PUBLIC'], async (req, res) => {
-            res.render('multer', {})
+        this.get('/multer', ['USER', 'PREMIUM'], async (req, res) => {
+            res.render('multer', {user: req.user.user})
         })
     }
 }
