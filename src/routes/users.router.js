@@ -1,7 +1,8 @@
 const passport = require('passport')
 const RouterClass = require('./RouterClass')
 const userController = require('../controllers/users.controller')
-const { generateToken } = require('../utils/jwt')
+const { generateToken } = require('../utils/jwt');
+const uploader = require('../utils/multer');
  
 const authenticateJWT = passport.authenticate('current', { session: false });
 const authenticateGithub = passport.authenticate('github', { session: false })
@@ -56,9 +57,22 @@ class SessionRouter extends RouterClass {
             }
         })
 
-        this.get('/premium/:uid', ['ADMIN'], async (req, res) => {
+        this.get('/premium/:uid', ['PUBLIC'], async (req, res) => {
             try{
-                res.sendSuccess(await userController.premiumUser(req, res))
+                res.sendSuccess(await userController.premiumUser(req, res)) 
+            }catch(error){
+                res.sendServerError(error.message)
+            }
+        })
+
+        this.post('/:uid/documents', ['USER', 'PREMIUM', 'ADMIN'], uploader.fields([
+            { name: 'identification', maxCount: 1},
+            { name: 'addressProof', maxCount: 1 },
+            { name: 'accountStatement', maxCount: 1 },
+            { name: 'profile', maxCount: 1 }
+        ]), async (req, res) => {
+            try{
+                res.sendSuccess(await userController.uploadDocument(req, res))
             }catch(error){
                 res.sendServerError(error.message)
             }

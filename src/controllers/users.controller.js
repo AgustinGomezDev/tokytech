@@ -6,6 +6,7 @@ const CustomError = require('../utils/CustomErrors/CustomError')
 const EErrors = require('../utils/CustomErrors/EErrors')
 const { generateUserErrorInfo } = require('../utils/CustomErrors/info')
 const transport = require('../utils/nodemailer')
+const lastConnection = require('../utils/lastConnection')
 
 class UserController {
     register = async(req, res, next) => {
@@ -61,6 +62,7 @@ class UserController {
 
                 const access_token = generateToken(userDB)
 
+                lastConnection(userDB._id)
                 res.cookie(process.env.JWT_COOKIE_KEY, access_token, {maxAge: 3600000})
     
                 return { userDB, access_token }
@@ -70,8 +72,15 @@ class UserController {
     }
 
     logout = (req, res, next)=>{
-        res.clearCookie(process.env.JWT_COOKIE_KEY)
-        return 'Succesfully logged out'
+        if(req.cookies[process.env.JWT_COOKIE_KEY]){
+            const token = req.cookies[process.env.JWT_COOKIE_KEY]
+            const user = decodeJWT(token, process.env.JWT_KEY)
+            lastConnection(user.user._id)
+            res.clearCookie(process.env.JWT_COOKIE_KEY)
+            return 'Succesfully logged out'
+        }else{
+            return 'No user logged in'
+        }
     }
 
     current = (req, res, next) => {
@@ -118,7 +127,7 @@ class UserController {
             const { token, password } = req.body
 
             try{
-                const user = decodeJWT(token)
+                const user = decodeJWT(token, process.env.JWT_RESET_PASSWORD_KEY)
 
                 if(isValidPassword(user.user, password) == true)
                     res.send({status: 'error', message: "You can't enter the same password you had before"})
@@ -144,12 +153,57 @@ class UserController {
                     code: EErrors.INVALID_TYPE_ERROR
             })
 
+            if(userDB.role === 'user'){
+                const requiredDocuments = ['identification', 'addressProof', 'accountStatement']
+                const hasAllDocuments = requiredDocuments.every(doc => userDB.documents && userDB.documents[doc])
+    
+                if(!hasAllDocuments){
+                    CustomError.createError({
+                        name: 'Could not upgrade user to premium',
+                        cause: null,
+                        message: 'User must upload all required documents before upgrading to premium (identification, address proof & account statement)',
+                        code: EErrors.INVALID_TYPE_ERROR
+                    })
+                }
+            }
+
             let newRole = ''
             userDB.role === 'user' ? newRole = 'premium' : newRole = 'user'
 
             const newRoleUser = await userService.update({_id: uid}, {role: newRole})
             const result = await userService.getById(uid)
             return result
+        }catch(error){
+            throw error
+        }
+    }
+
+    uploadDocument = async(req, res, next) => {
+        try{
+            const user = req.params.uid
+            const uploadedFiles = req.files
+
+            if(uploadedFiles['identification']){
+                const identificationFile = uploadedFiles['identification'][0]
+                await userService.updateDocuments(user, identificationFile.fieldname, identificationFile.path)
+            } 
+            
+            if(uploadedFiles['addressProof']){
+                const addressProofFile = uploadedFiles['addressProof'][0];
+                await userService.updateDocuments(user, addressProofFile.fieldname, addressProofFile.path)
+            } 
+            
+            if(uploadedFiles['accountStatement']){
+                const accountStatementFile = uploadedFiles['accountStatement'][0];
+                await userService.updateDocuments(user, accountStatementFile.fieldname, accountStatementFile.path)
+            } 
+
+            if(uploadedFiles['profile']){
+                const profileFile = uploadedFiles['profile'][0];
+                await userService.updateDocuments(user, profileFile.fieldname, profileFile.path)
+            } 
+
+            return 'Files uploaded successfully'
         }catch(error){
             throw error
         }
