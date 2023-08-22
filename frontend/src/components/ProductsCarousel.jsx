@@ -6,7 +6,7 @@ import 'react-multi-carousel/lib/styles.css';
 import { Spinner } from './Spinner';
 
 export const ProductsCarousel = () => {
-  const apiUrl = 'http://localhost:9090/api/products?limit=10&sort=desc';
+  const apiUrl = 'https://backend-coderhouse-csas.onrender.com/api/products?limit=10&sort=desc';
   const { data, isLoading, error } = useFetch(apiUrl);
 
   if (isLoading) {

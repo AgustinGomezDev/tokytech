@@ -29,7 +29,7 @@ export const RecoverPassword = () => {
             <p>Please provide the email associated with the account you want to recover the password for.</p>
             <p>Make sure you have access to this email.</p>
         </div>
-        <form action="http://localhost:9090/api/users/recoverpassword" method="POST" className='flex flex-col items-center justify-center gap-2'>
+        <form action="https://backend-coderhouse-csas.onrender.com/api/users/recoverpassword" method="POST" className='flex flex-col items-center justify-center gap-2'>
             <input type="email" placeholder='Email' className='input input-bordered w-full max-w-xs' id="email" name="email" value={userEmail} onChange={(e) => setUserEmail(e.target.value)} />
             <input type="submit" value="Send" className="btn text-myDarkColor" />
         </form>

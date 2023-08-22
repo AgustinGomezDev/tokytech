@@ -64,10 +64,10 @@ export const Footer = () => {
                             <Link to="/cart" className='nav-item'>Cart</Link>
                         </li>
                         <li>
-                            <a href="http://localhost:9090/chat" className='nav-item'>Chat</a>
+                            <a href="https://backend-coderhouse-csas.onrender.com/chat" className='nav-item'>Chat</a>
                         </li>
                         <li>
-                            <a href="http://localhost:9090/realtimeproducts" className='nav-item'>Real time products</a>
+                            <a href="https://backend-coderhouse-csas.onrender.com/realtimeproducts" className='nav-item'>Real time products</a>
                         </li>
                     </ul>
                 </div>
