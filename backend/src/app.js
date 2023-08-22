@@ -43,7 +43,6 @@ app.use(express.urlencoded({extended: true}))
 app.use('/static', express.static(__dirname+'/public'))
 app.use(cookieParser())
 app.use(cors({
-    origin: 'http://localhost:5173',
     credentials: true
 }))
 
