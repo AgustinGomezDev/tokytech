@@ -31,7 +31,6 @@ export const Account = () => {
 
             const res = axios.post(apiUrl, formData)
                 .then(result => {
-                    console.log(result)
                     toast.success('Files uploaded successfully!')
                 })
             } catch (error) {
