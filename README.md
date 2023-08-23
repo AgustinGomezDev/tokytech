@@ -22,7 +22,8 @@ This project is designed as part of the Coderhouse backend course. It provides a
 </div>
 
 ## Demo
-
+- Frontend: https://tokytech.vercel.app/
+- Backend: https://backend-coderhouse-csas.onrender.com/
 ## Installation
 You will need to clone this repository, then you have to enter to the project directory and execute the install of all dependencies
 
