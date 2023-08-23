@@ -63,7 +63,7 @@ class UserController {
                 const access_token = generateToken(userDB)
 
                 lastConnection(userDB._id)
-                res.cookie(process.env.JWT_COOKIE_KEY, access_token, {maxAge: 3600000, sameSite: 'none', secure: true})
+                res.cookie(process.env.JWT_COOKIE_KEY, access_token, {maxAge: 3600000, httpOnly: true, sameSite: 'none', secure: true})
     
                 return { userDB, access_token }
             }catch(error){

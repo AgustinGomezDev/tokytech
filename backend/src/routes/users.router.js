@@ -84,7 +84,7 @@ class SessionRouter extends RouterClass {
             try{
                 const user = req.user
                 const token = generateToken(user)
-                res.cookie(process.env.JWT_COOKIE_KEY, token, {maxAge: 3600000, sameSite: 'none', secure: true})
+                res.cookie(process.env.JWT_COOKIE_KEY, token, {maxAge: 3600000, httpOnly: true, sameSite: 'none', secure: true})
                 res.redirect('/products')
             }catch(error){
                 res.sendServerError(error.message)
