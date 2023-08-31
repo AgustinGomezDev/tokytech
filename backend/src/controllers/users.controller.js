@@ -63,7 +63,7 @@ class UserController {
                 const access_token = generateToken(userDB)
 
                 lastConnection(userDB._id)
-                res.cookie(process.env.JWT_COOKIE_KEY, access_token, {maxAge: 3600000, httpOnly: true, sameSite: 'none', secure: true})
+                res.cookie(process.env.JWT_COOKIE_KEY, access_token, {maxAge: 3600000, httpOnly: false, sameSite: 'none', secure: true})
     
                 return { userDB, access_token }
             }catch(error){
@@ -155,7 +155,7 @@ class UserController {
 
             if(userDB.role === 'user'){
                 const requiredDocuments = ['identification', 'addressProof', 'accountStatement']
-                const hasAllDocuments = requiredDocuments.every(doc => userDB.documents && userDB.documents[doc])
+                const hasAllDocuments = requiredDocuments.every(docName => userDB.documents.some(doc => doc.name === docName))
     
                 if(!hasAllDocuments){
                     CustomError.createError({
@@ -204,6 +204,46 @@ class UserController {
             } 
 
             return 'Files uploaded successfully'
+        }catch(error){
+            throw error
+        }
+    }
+
+    getUsers = async(req, res, next) => {
+        try{
+            const users = await userService.get()
+            const usersMapped = users.map((user) => {
+                const { first_name, last_name, email, role } = new UserDto(user)
+                return { first_name, last_name, email, role }
+            })
+            return usersMapped
+        }catch(error){
+            throw error
+        }
+    }
+
+    inactiveUsers = async(req, res, next) => {
+        try{
+            const option = { last_connection: { $lt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000) } } // 2 days
+            const inactiveUsers = await userService.getInactiveUsers(option)
+            
+            const deletedUsers = []
+            inactiveUsers.map(async (user) => {
+                deletedUsers.push(user.email)
+                await userService.delete(user._id)
+
+                transport.sendMail({
+                    from: 'Account deleted <agustingomezdev@gmail.com>',
+                    to: user.email,
+                    subject: 'Your account has been deleted',
+                    html: `
+                    <div>
+                        <h1>Your account has been deleted due to inactivity in the last 2 days</h1>
+                    </div>
+                    `
+                })
+            })
+            return deletedUsers
         }catch(error){
             throw error
         }

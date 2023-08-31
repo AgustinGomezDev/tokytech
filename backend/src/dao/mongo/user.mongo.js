@@ -45,6 +45,14 @@ class UserManagerMongo{
         }
     }
 
+    async getInactiveUsers(option){
+        try{
+            return await userModel.find(option)
+        }catch(error){
+            return new Error(error)
+        }
+    }
+
     async addUser(user){
         try{
             return await userModel.create(user)

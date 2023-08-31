@@ -2,6 +2,7 @@ const { productService } = require('../service')
 const CustomError = require('../utils/CustomErrors/CustomError')
 const EErrors = require('../utils/CustomErrors/EErrors')
 const { generateProductErrorInfo } = require('../utils/CustomErrors/info')
+const transport = require('../utils/nodemailer')
 
 class ProductController {
     get = async (req, res) => {
@@ -115,6 +116,19 @@ class ProductController {
             }
 
             const deletedProduct = await productService.delete(req.params.pid)
+            
+            if(req.user.user.role === 'admin' && 'admin' !== product.owner){
+                await transport.sendMail({
+                    from: 'Product deleted <agustingomezdev@gmail.com>',
+                    to: product.owner,
+                    subject: 'Product deleted',
+                    html: `
+                    <div>
+                        <h1>Your product: ${product.title} has been deleted by an admin</h1>
+                    </div>
+                    `
+                })
+            }
             return { deletedProduct }
         }catch(error){
             throw error

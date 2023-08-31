@@ -9,6 +9,14 @@ const authenticateGithub = passport.authenticate('github', { session: false })
 
 class SessionRouter extends RouterClass {
     init(){
+        this.get('/', ['ADMIN'], authenticateJWT, async (req, res) => {
+            try{
+                res.sendSuccess(await userController.getUsers(req, res))
+            }catch(error){
+                res.sendServerError(error.message)
+            }
+        })
+
         this.get('/current', ['PUBLIC'], authenticateJWT,  async (req, res) => {
             try{
                 res.sendSuccess(await userController.current(req, res))
@@ -78,13 +86,21 @@ class SessionRouter extends RouterClass {
             }
         })
 
+        this.delete('/', ['ADMIN'], authenticateJWT, async (req, res) => {
+            try{
+                res.sendSuccess(await userController.inactiveUsers(req, res))
+            }catch(error){
+                res.sendServerError(error.message)
+            }
+        })
+
         this.get('/github', ['PUBLIC'],authenticateGithub, async (req, res)=>{})
 
         this.get('/githubcallback', ['PUBLIC'], authenticateGithub,  async (req, res) => {
             try{
                 const user = req.user
                 const token = generateToken(user)
-                res.cookie(process.env.JWT_COOKIE_KEY, token, {maxAge: 3600000, httpOnly: true, sameSite: 'none', secure: true})
+                res.cookie(process.env.JWT_COOKIE_KEY, token, {maxAge: 3600000, httpOnly: false, sameSite: 'none', secure: true})
                 res.redirect('/products')
             }catch(error){
                 res.sendServerError(error.message)
