@@ -28,6 +28,7 @@ export const AuthProvider = ({ children }) => {
   const login = async (user) => {
     try{
       const res = await loginRequest(user)
+      Cookies.set('jwtCookieToken', res.data.payload.access_token, { expires: 1 })
       setUser(res.data.payload.userDB)
       setIsAuthenticated(true)
     }catch(error){
@@ -38,7 +39,7 @@ export const AuthProvider = ({ children }) => {
   const logout = async () => {
     try{
       const res = await logoutRequest()
-      Cookies.remove("jwtCookieToken");
+      Cookies.remove('jwtCookieToken');
       setUser(null);
       setIsAuthenticated(false);
     }catch(error){
