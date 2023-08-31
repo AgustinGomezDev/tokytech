@@ -11,7 +11,7 @@ import { Toaster, toast } from 'sonner';
 export const ProductDetail = () => {
   const { productId } = useParams()
   const { user, isAuthenticated } = useAuth()
-  const apiUrl = `https://backend-coderhouse-csas.onrender.com/api/products/${productId}`;
+  const apiUrl = `http://localhost:9090/api/products/${productId}`;
   const { data, isLoading, error } = useFetch(apiUrl);
 
   const handleSubmit = (e) => {

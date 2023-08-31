@@ -21,7 +21,7 @@ export const Account = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
-            const apiUrl = `https://backend-coderhouse-csas.onrender.com/api/users/${user._id}/documents`
+            const apiUrl = `http://localhost:9090/api/users/${user._id}/documents`
 
             const formData = new FormData();
             formData.append('profile', e.target.profile.files[0]);

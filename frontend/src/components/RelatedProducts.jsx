@@ -4,7 +4,7 @@ import { Spinner } from './Spinner';
 import { Link } from 'react-router-dom'
 
 export const RelatedProducts = ({ category }) => {
-    const apiUrl = `https://backend-coderhouse-csas.onrender.com/api/products?limit=4&query=${category}`;
+    const apiUrl = `http://localhost:9090/api/products?limit=4&query=${category}`;
     const { data, isLoading, error } = useFetch(apiUrl);
 
     if (isLoading) {

@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const instance = axios.create({
-    baseURL: 'https://backend-coderhouse-csas.onrender.com/api',
+    baseURL: 'http://localhost:9090/api',
     withCredentials: true
 })
 

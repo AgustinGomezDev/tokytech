@@ -8,8 +8,8 @@ export const ProductListContainer = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  let apiUrl = `https://backend-coderhouse-csas.onrender.com/api/products?query=true`;
-  if (category !== undefined) apiUrl = `https://backend-coderhouse-csas.onrender.com/api/products?query=${category}`;
+  let apiUrl = `http://localhost:9090/api/products?query=true`;
+  if (category !== undefined) apiUrl = `http://localhost:9090/api/products?query=${category}`;
 
   const searchParams = new URLSearchParams(location.search)
 

@@ -11,7 +11,7 @@ export const Cart = () => {
     if (user === null) return <Spinner />
     
     const [purchaseButtonText, setPurchaseButtonText] = useState('Purchase my cart');
-    const apiUrl = `https://backend-coderhouse-csas.onrender.com/api/carts/${user.cart}`
+    const apiUrl = `http://localhost:9090/api/carts/${user.cart}`
     const { data, isLoading, error, refetch } = useFetch(apiUrl);
 
     if (isLoading) return <Spinner />;
@@ -24,7 +24,7 @@ export const Cart = () => {
 
 
     const handleDelete = (productId) => {
-        const apiUrlDelete = `https://backend-coderhouse-csas.onrender.com/api/carts/${user.cart}/products/${productId}`
+        const apiUrlDelete = `http://localhost:9090/api/carts/${user.cart}/products/${productId}`
         try {
             const res = axios.delete(apiUrlDelete)
                 .then(result => {
@@ -38,7 +38,7 @@ export const Cart = () => {
     }
 
     const handleUpdate = (quantity, productId) => {
-        const apiUrlUpate = `https://backend-coderhouse-csas.onrender.com/api/carts/${user.cart}/products/${productId}`
+        const apiUrlUpate = `http://localhost:9090/api/carts/${user.cart}/products/${productId}`
         try {
             const res = axios.put(apiUrlUpate, {"quantity": quantity})
                 .then(result => {
@@ -54,7 +54,7 @@ export const Cart = () => {
     const handlePurchase = async() => {
         setPurchaseButtonText('Purchasing cart...');
 
-        const apiUrlPurchase = `https://backend-coderhouse-csas.onrender.com/api/carts/${user.cart}/purchase`
+        const apiUrlPurchase = `http://localhost:9090/api/carts/${user.cart}/purchase`
         try{
             const res = axios.get(apiUrlPurchase)
             .then(result => {

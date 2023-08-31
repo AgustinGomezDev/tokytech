@@ -18,7 +18,7 @@ export const UpdatePassword = () => {
         <div className='text-center'>
             <p>Please provide your new password.</p>
         </div>
-        <form action="https://backend-coderhouse-csas.onrender.com/api/users/updatepassword" method="POST" className='flex flex-col items-center justify-center gap-2'>
+        <form action="http://localhost:9090/api/users/updatepassword" method="POST" className='flex flex-col items-center justify-center gap-2'>
             <input type="password" placeholder='Password' className='input input-bordered w-full max-w-xs' id="password" name="password" />
             <input type="hidden" name="token" id="token" value={token} />
             <input type="submit" value="Send" className="btn text-myDarkColor" />
